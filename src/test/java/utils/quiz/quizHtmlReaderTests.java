@@ -1,10 +1,14 @@
-package utils.quizHtmlReader;
+package utils.quiz;
 
 
 import org.junit.jupiter.api.Test;
+import quiz.QuestionContent;
+import quiz.QuizHtmlReader;
+import quiz.QuizQuestioner;
 import utils.fileReader.FileReader;
 
 import java.io.File;
+import java.util.ArrayList;
 
 class QuizHtmlReaderTests {
 
@@ -26,7 +30,12 @@ class QuizHtmlReaderTests {
         File file = new File(classLoader.getResource("source.html").getFile());
 
         String text = fr.read(file);
-        quizHtmlReader.readHtmlText(text);
+        ArrayList<QuestionContent> questionContents = quizHtmlReader.readHtmlText(text);
+        QuizQuestioner quizQuestioner = new QuizQuestioner();
+
+        for (QuestionContent questionContent1 : questionContents) {
+            quizQuestioner.question(questionContent1);
+        }
     }
 
 }

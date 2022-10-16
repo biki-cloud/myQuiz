@@ -1,4 +1,4 @@
-package utils.quizHtmlReader;
+package quiz;
 
 
 import java.util.ArrayList;
