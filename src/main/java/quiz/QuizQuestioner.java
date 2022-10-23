@@ -1,30 +1,41 @@
 package quiz;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.util.FileCopyUtils;
-import utils.fileReader.FileReader;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class QuizQuestioner {
-    public static String readFileInResourcesDir(String filename) throws IOException {
+    public static ArrayList<String> readFileInResourcesDir() throws IOException {
+        ArrayList<String> allHtmlTexts = new ArrayList<>();
         // resourcesディレクトリの中を探す
-        Resource resource = new ClassPathResource(filename);
-        InputStream inputStream = resource.getInputStream();
+        File unitDirs = new File("src/main/resources/quizFiles/CS2205");
+        for (File unitDir : unitDirs.listFiles()) {
+            for (File htmlFile : unitDir.listFiles()) {
+                System.out.println(htmlFile.getName());
+                System.out.println(htmlFile.getAbsolutePath());
+
+                allHtmlTexts.add(readHtmlFile(htmlFile.getAbsolutePath()));
+            }
+        }
+
+        return allHtmlTexts;
+    }
+
+    public static String readHtmlFile(String htmlPath) throws FileNotFoundException {
+        InputStream inputStream = new FileInputStream(htmlPath);
         String text = "";
         try {
             byte[] bdata = FileCopyUtils.copyToByteArray(inputStream);
             text = new String(bdata, StandardCharsets.UTF_8);
+            return text;
         } catch (IOException e) {
             System.out.println("error");
         }
-        return text;
+        return "";
     }
 
     public static final String ANSI_RED = "\u001B[31m";
@@ -35,16 +46,34 @@ public class QuizQuestioner {
 
         QuizHtmlReader quizHtmlReader = new QuizHtmlReader();
 
-        String text = readFileInResourcesDir("source.html");
+        ArrayList<String> allHtmlTexts;
 
-        ArrayList<QuestionContent> questionContents = quizHtmlReader.readHtmlText(text);
-        QuizQuestioner quizQuestioner = new QuizQuestioner();
+        // resourcesディレクトリにある全てのhtmlファイルの文字列を読み込み、配列で取得する
+        allHtmlTexts = readFileInResourcesDir();
 
-        for (QuestionContent questionContent1 : questionContents) {
-            quizQuestioner.question(questionContent1);
+        // html要素がうまく取得できない時にファイル単体で試してみる時に使用する
+        //  allHtmlTexts.add(readHtmlFile("src/main/resources/quizFiles/CS2205/UNIT1/2.html"));
+
+        // 問題をシャッフルする
+        Collections.shuffle(allHtmlTexts);
+        for (String htmlText : allHtmlTexts) {
+            ArrayList<QuestionContent> questionContents = quizHtmlReader.getQuestionContentsFromHTMLText(htmlText);
+            QuizQuestioner quizQuestioner = new QuizQuestioner();
+
+            for (QuestionContent questionContent1 : questionContents) {
+                quizQuestioner.question(questionContent1);
+            }
+
         }
+
+
     }
 
+    /**
+     * QuestionContentを受け取り、問題を出す。
+     * 正解も判定する。
+     * @param questionContent 問題、選択肢、回答が入っている問題クラス
+     */
     public void question(QuestionContent questionContent) {
         System.out.println("-------------------------------------------------");
         System.out.println("Question!!");
@@ -59,16 +88,14 @@ public class QuizQuestioner {
         System.out.print("Your Answer: ");
         Scanner userInput = new Scanner(System.in);
         int userAnswer = userInput.nextInt();
-        System.out.println("****************************");
 //        System.out.println("userAnswer   : " + choices.get(userAnswer - 1));
-        System.out.print("Result: ");
+        System.out.print("Result     : ");
         if (choices.get(userAnswer - 1).equals(questionContent.getAnswer())) {
             System.out.println(ANSI_GREEN + "Correct!!!" + ANSI_RESET);
         } else {
             System.out.println(ANSI_RED + "Wrong!!!" + ANSI_RESET);
-            System.out.println("CorrectAnswer: " + questionContent.getAnswer());
+            System.out.println("Correct    : " + questionContent.getAnswer());
         }
-        System.out.println("****************************");
 
     }
 }

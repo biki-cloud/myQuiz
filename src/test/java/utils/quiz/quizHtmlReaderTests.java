@@ -27,10 +27,10 @@ class QuizHtmlReaderTests {
         FileReader fr = new FileReader();
 
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("source.html").getFile());
+        File file = new File(classLoader.getResource("quizFiles/CS2205/UNIT1/1.html").getFile());
 
         String text = fr.read(file);
-        ArrayList<QuestionContent> questionContents = quizHtmlReader.readHtmlText(text);
+        ArrayList<QuestionContent> questionContents = quizHtmlReader.getQuestionContentsFromHTMLText(text);
         QuizQuestioner quizQuestioner = new QuizQuestioner();
 
         for (QuestionContent questionContent1 : questionContents) {
