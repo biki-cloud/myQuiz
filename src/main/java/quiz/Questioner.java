@@ -45,8 +45,8 @@ public class Questioner {
         for (String htmlText : allHtmlTexts) {
             ArrayList<Question> questions = quizHtmlReader.getQuestionsFromHTMLText(htmlText);
 
-            for (Question question1 : questions) {
-                questioner.questions(question1);
+            for (Question question : questions) {
+                questioner.questions(question);
             }
 
         }
