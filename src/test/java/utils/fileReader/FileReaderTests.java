@@ -12,9 +12,8 @@ public class FileReaderTests {
         FileReader fr = new FileReader();
 
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("quizFiles/CS2205/UNIT1/1.html").getFile());
 
-        String text = fr.read(file);
+        String text = fr.read(classLoader.getResource("quizFiles/CS2205/UNIT1/1.html").getFile());
         System.out.println(text);
     }
 

@@ -2,19 +2,18 @@ package utils.quiz;
 
 
 import org.junit.jupiter.api.Test;
-import quiz.QuestionContent;
-import quiz.QuizHtmlReader;
-import quiz.QuizQuestioner;
+import quiz.Question;
+import quiz.HtmlParser;
+import quiz.Questioner;
 import utils.fileReader.FileReader;
 
-import java.io.File;
 import java.util.ArrayList;
 
 class QuizHtmlReaderTests {
 
     @Test
     void parseHtmlElement() {
-        QuizHtmlReader quizHtmlReader = new QuizHtmlReader();
+        HtmlParser quizHtmlReader = new HtmlParser();
         String htmlText = "<!DOCTYPE html>" +
                 "    <html>" +
                 "    <head>" +
@@ -27,14 +26,13 @@ class QuizHtmlReaderTests {
         FileReader fr = new FileReader();
 
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("quizFiles/CS2205/UNIT1/1.html").getFile());
 
-        String text = fr.read(file);
-        ArrayList<QuestionContent> questionContents = quizHtmlReader.getQuestionContentsFromHTMLText(text);
-        QuizQuestioner quizQuestioner = new QuizQuestioner();
+        String text = fr.read(classLoader.getResource("quizFiles/CS2205/UNIT1/1.html").getFile());
+        ArrayList<Question> questions = quizHtmlReader.getQuestionsFromHTMLText(text);
+        Questioner questioner = new Questioner();
 
-        for (QuestionContent questionContent1 : questionContents) {
-            quizQuestioner.question(questionContent1);
+        for (Question question1 : questions) {
+            questioner.questions(question1);
         }
     }
 

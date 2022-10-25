@@ -8,23 +8,28 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 
 
-public class QuizHtmlReader {
-    public QuizHtmlReader() {
+public class HtmlParser {
+    public HtmlParser() {
     }
 
-    public ArrayList<QuestionContent> getQuestionContentsFromHTMLText(String htmlText) {
+    /**
+     * htmlのテキストを受け取り、中に存在する問題を全てQuestionクラスに格納し、配列で返す。
+     * @param htmlText htmlの文字列
+     * @return htmlの問題を全て格納したQuestionクラスの配列を返す。
+     */
+    public ArrayList<Question> getQuestionsFromHTMLText(String htmlText) {
         Document document = Jsoup.parse(htmlText);
         Elements allElements = document.getAllElements();
 
-        ArrayList<QuestionContent> questionContents = new ArrayList<>();
+        ArrayList<Question> questions = new ArrayList<>();
         for (Element element : allElements) {
             // question-から始まるクラスの要素がクイズ１問のhtml要素になる
             if (element.id().contains("question-")) {
-                questionContents.add(extractQuestionContentFromOneQuestionHTMLElement(element));
+                questions.add(getQuestionFromHTMLElement(element));
             }
         }
 
-        return questionContents;
+        return questions;
     }
 
     /**
@@ -33,18 +38,18 @@ public class QuizHtmlReader {
      * @param element 1つの問題が格納されているHTML要素
      * @return 問題、選択肢、答えが格納されたQuestionContentオブジェクト
      */
-    public QuestionContent extractQuestionContentFromOneQuestionHTMLElement(Element element) {
-        QuestionContent questionContent = new QuestionContent();
+    public Question getQuestionFromHTMLElement(Element element) {
+        Question question = new Question();
         for (Element ele : element.getAllElements()) {
             if (ele.className().equals("qtext")) {
-                questionContent.setQuestion(ele.text());
+                question.setQuestion(ele.text());
             }
             if (ele.className().equals("flex-fill ml-1") || ele.className().equals("ml-1")) {
                 String choice = ele.text();
                 if (choice.charAt(choice.length() - 1) == '.') {
                     choice = choice.substring(0, choice.length() - 1);
                 }
-                questionContent.addChoices(choice);
+                question.addChoices(choice);
             }
             if (ele.className().equals("rightanswer")) {
                 // exmaples of ele.ownText()
@@ -61,9 +66,9 @@ public class QuizHtmlReader {
                 } else {
                     distinctAnswer = distinctAnswer.substring(1);
                 }
-                questionContent.setAnswer(distinctAnswer);
+                question.setAnswer(distinctAnswer);
             }
         }
-        return questionContent;
+        return question;
     }
 }

@@ -3,13 +3,13 @@ package quiz;
 
 import java.util.ArrayList;
 
-public class QuestionContent {
+public class Question {
     private String question = "";
     private ArrayList<String> choices = new ArrayList<>();
     private String answer = "";
-    public QuestionContent() {}
+    public Question() {}
 
-    public QuestionContent(String question, ArrayList<String> choices, String answer) {
+    public Question(String question, ArrayList<String> choices, String answer) {
         this.question = question;
         this.choices = choices;
         this.answer = answer;
