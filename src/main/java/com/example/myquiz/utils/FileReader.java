@@ -1,4 +1,4 @@
-package utils.fileReader;
+package com.example.myquiz.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;

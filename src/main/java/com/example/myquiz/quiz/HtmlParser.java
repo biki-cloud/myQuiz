@@ -1,4 +1,4 @@
-package quiz;
+package com.example.myquiz.quiz;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

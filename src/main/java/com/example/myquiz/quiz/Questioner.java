@@ -1,6 +1,6 @@
-package quiz;
+package com.example.myquiz.quiz;
 
-import utils.fileReader.FileReader;
+import com.example.myquiz.utils.FileReader;
 
 import java.io.*;
 import java.util.ArrayList;

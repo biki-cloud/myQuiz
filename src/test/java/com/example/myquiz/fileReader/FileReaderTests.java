@@ -1,8 +1,8 @@
-package utils.fileReader;
+package com.example.myquiz.fileReader;
 
+import com.example.myquiz.utils.FileReader;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 
 public class FileReaderTests {
