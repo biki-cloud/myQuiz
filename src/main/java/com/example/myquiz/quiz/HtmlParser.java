@@ -25,11 +25,8 @@ public class HtmlParser {
         for (Element element : allElements) {
             // question-から始まるクラスの要素がクイズ１問のhtml要素になる
             if (element.id().contains("question-")) {
-                System.out.println("77777777777777777777");
-//                quizContents.add(getQuestionFromHTMLElement(element));
+                quizContents.add(getQuestionFromHTMLElement(element));
             }
-            System.out.println(element.id());
-            System.out.println("666666666666666666");
         }
 
         return quizContents;
@@ -42,26 +39,24 @@ public class HtmlParser {
      * @return 問題、選択肢、答えが格納されたQuestionContentオブジェクト
      */
     public QuizContent getQuestionFromHTMLElement(Element element) {
-        System.out.println("*******************");
+//        System.out.println("*******************");
         final Choices choices = new Choices(new ArrayList<String>());
         QuizContent quizContent = new QuizContent();
         for (Element ele : element.getAllElements()) {
-            System.out.println("-------------------------------------");
+//            System.out.println("-------------------------------------");
             final String className = ele.className();
             final String textOfElement = ele.text();
-            System.out.println("className      : " + className);
-            System.out.println("text of element: " + textOfElement);
+//            System.out.println("className      : " + className);
+//            System.out.println("text of element: " + textOfElement);
             switch (className) {
                 case "qtext":
                     final String textOfQuestion = textOfElement;
                     final Question question = new Question(textOfQuestion);
-                    System.out.println("question");
                     quizContent.setQuestion(question);
 //                    question.setQuestion(textOfQuestion);
                     break;
                 case "flex-fill ml-1":
                 case "ml-1":
-                    System.out.println("choices");
                     final String rawChoiceText = textOfElement;
                     if (rawChoiceText.charAt(rawChoiceText.length() - 1) == '.') {
                         final String dotRemovedChoiceText = rawChoiceText.substring(0, rawChoiceText.length() - 1);
@@ -73,12 +68,10 @@ public class HtmlParser {
                     }
                     break;
                 case "rightanswer":
-                    System.out.println("answer");
                     // exmaples of ele.ownText()
                     // The correct answer is: software architecture and a software design pattern.
                     // The correct answer is: 'True'
                     final String textOfAnswer = textOfElement; // The correct answer is: 'True'
-                    System.out.println(textOfAnswer);
                     String distinctAnswer = textOfAnswer.substring(22); // 'True'
                     // 最後に.がついていた場合は削除する
                     if (distinctAnswer.charAt(distinctAnswer.length() - 1) == '.') {
@@ -97,9 +90,10 @@ public class HtmlParser {
 //                    System.out.println("------- "+ textOfElement);
             }
         }
-        System.out.println(quizContent.getQuestion().value);
+        System.out.println("-----------------------------");
+//        System.out.println("question: " + quizContent.getQuestion().value);
         quizContent.setChoices(choices);
-        System.out.println(quizContent.toString());
+        System.out.println("quizContent: " + quizContent.toString());
         return quizContent;
     }
 }

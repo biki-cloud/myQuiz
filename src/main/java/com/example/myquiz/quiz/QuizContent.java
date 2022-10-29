@@ -18,7 +18,7 @@ public class QuizContent {
 
     @Override
     public String toString() {
-        return "QuestionContent{" +
+        return "QuizContent {" +
                 "question='" + question.value + '\'' +
                 ", choices=" + choices.values +
                 ", answer='" + answer.value + '\'' +

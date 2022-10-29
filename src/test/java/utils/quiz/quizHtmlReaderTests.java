@@ -24,8 +24,6 @@ class QuizHtmlReaderTests {
         String text = fr.read(classLoader.getResource("quizFiles/CS2205/UNIT1/1.html").getFile());
         ArrayList<QuizContent> quizContents = htmlParser.getQuestionsFromHTMLText(text);
 
-        System.out.println("88888888888888888");
-
         if (quizContents.size() != 10) {
             throw new IllegalStateException("htmlの中から問題を１０個取得できていません。実際に取得した数: " + quizContents.size());
         }
