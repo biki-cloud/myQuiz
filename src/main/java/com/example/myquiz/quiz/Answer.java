@@ -3,12 +3,12 @@ package com.example.myquiz.quiz;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Question {
+public class Answer {
     final public String value;
 
-    public Question(String value) {
+    public Answer(String value) {
         if (value.equals("")) {
-            throw new IllegalArgumentException("問題が空です。");
+            throw new IllegalArgumentException("受け取った文字列が空です。");
         }
         this.value = value;
     }

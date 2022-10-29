@@ -43,10 +43,10 @@ public class Questioner {
         Questioner questioner = new Questioner();
 
         for (String htmlText : allHtmlTexts) {
-            ArrayList<Question> questions = quizHtmlReader.getQuestionsFromHTMLText(htmlText);
+            ArrayList<QuizContent> quizContents = quizHtmlReader.getQuestionsFromHTMLText(htmlText);
 
-            for (Question question : questions) {
-                questioner.questions(question);
+            for (QuizContent quizContent : quizContents) {
+                questioner.questions(quizContent);
             }
 
         }
@@ -57,16 +57,16 @@ public class Questioner {
     /**
      * QuestionContentを受け取り、問題を出す。
      * 正解も判定する。
-     * @param question 問題、選択肢、回答が入っている問題クラス
+     * @param quizContent 問題、選択肢、回答が入っている問題クラス
      * @return 正解したらtrue, 不正解ならfalseを返す
      */
-    public boolean questions(Question question) {
+    public boolean questions(QuizContent quizContent) {
         System.out.println("-------------------------------------------------");
         System.out.println("Question!!");
-        System.out.println(question.getQuestion());
+        System.out.println(quizContent.getQuestion());
         System.out.println("");
         System.out.println("Choices");
-        ArrayList<String> choices = question.getChoices();
+        ArrayList<String> choices = quizContent.getChoices().values;
         for (int i = 0; i < choices.size(); i++) {
             System.out.println(i + 1 + ". " + choices.get(i));
         }
@@ -76,12 +76,12 @@ public class Questioner {
         int userAnswer = userInput.nextInt();
 //        System.out.println("userAnswer   : " + choices.get(userAnswer - 1));
         System.out.print("Result     : ");
-        if (choices.get(userAnswer - 1).equals(question.getAnswer())) {
+        if (choices.get(userAnswer - 1).equals(quizContent.getAnswer())) {
             System.out.println(ANSI_GREEN + "Correct!!!" + ANSI_RESET);
             return true;
         } else {
             System.out.println(ANSI_RED + "Wrong!!!" + ANSI_RESET);
-            System.out.println("Correct    : " + question.getAnswer());
+            System.out.println("Correct    : " + quizContent.getAnswer());
             return false;
         }
     }
