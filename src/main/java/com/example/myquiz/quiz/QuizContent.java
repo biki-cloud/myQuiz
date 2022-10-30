@@ -1,8 +1,6 @@
 package com.example.myquiz.quiz;
 
 
-import java.util.ArrayList;
-
 public class QuizContent {
     private Question question;
     private Choices choices;
@@ -14,6 +12,20 @@ public class QuizContent {
         this.question = question;
         this.choices = choices;
         this.answer = answer;
+    }
+
+    public void choicesContainsAnswer() {
+        if (choices == null) {
+            throw new NullPointerException("choicesがnullになっています。setChoicesを使用し、セットしてからこの関数を実行してください");
+        }
+
+        if (answer == null) {
+            throw new NullPointerException("answerがnullになっています。SetAnswerを使用し、セットしてからこの関数を実行してください");
+        }
+
+        if (!choices.values.contains(answer.value)) {
+            throw new IllegalStateException("選択肢(choices)の中に答え(answer)が入っていません。");
+        }
     }
 
     @Override
