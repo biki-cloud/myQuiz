@@ -27,7 +27,7 @@ public class Questioner {
 
     public static void main(String[] args) throws IOException {
 
-        HtmlParser quizHtmlReader = new HtmlParser();
+        htmParser quizHtmlReader = new htmParser();
 
         ArrayList<String> allHtmlTexts;
 
