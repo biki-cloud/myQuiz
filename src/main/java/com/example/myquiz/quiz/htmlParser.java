@@ -8,8 +8,8 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 
 
-public class htmParser {
-    public htmParser() {
+public class htmlParser {
+    public htmlParser() {
     }
 
     /**
@@ -89,8 +89,8 @@ public class htmParser {
                     // The correct answer is: software architecture and a software design pattern.
                     // The correct answer is: 'True'
                     final String textOfAnswer = textOfElement; // The correct answer is: 'True'
-                    final String distinctAnswer = textOfAnswer.substring(22); // 'True'
-                    final String dotRemovedAnswer = removeLastDotFromSentence(distinctAnswer);
+                    final String removedUnnecessaryString = textOfAnswer.substring(22); // 'True'
+                    final String dotRemovedAnswer = removeLastDotFromSentence(removedUnnecessaryString);
                     final String wellProcessedAnswer = removeUnnecessaryChar(dotRemovedAnswer);
                     quizContent.setAnswer(new Answer(wellProcessedAnswer));
                     break;
