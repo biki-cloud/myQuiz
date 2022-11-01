@@ -53,10 +53,6 @@ public class htmlParser {
                 }
                 case "flex-fill ml-1", "ml-1" -> choices.add(Choices.removeLastDotFromSentence(textOfElement));
                 case "rightanswer" -> {
-                    // exmaples of ele.ownText()
-                    // The correct answer is: software architecture and a software design pattern.
-                    // The correct answer is: 'True'
-                    // The correct answer is: 'True'
                     Answer answer = Answer.getAnswerFromTextOfHtmlElement(textOfElement);
                     quizContent.setAnswer(answer);
                 }
