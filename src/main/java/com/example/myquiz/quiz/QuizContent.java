@@ -14,6 +14,12 @@ public class QuizContent {
         this.answer = answer;
     }
 
+    /**
+     * 選択肢の中に答えが含まれているかチェックするメソッド
+     * choices(選択肢クラス）とanswer(答えクラス)が正常にセットされてからこの
+     * メソッドを実行してください。
+     * 選択肢の中に答えが含まれていない場合はIllegalStateExceptionを投げます。
+     */
     public void choicesContainsAnswer() {
         if (choices == null) {
             throw new NullPointerException("choicesがnullになっています。setChoicesを使用し、セットしてからこの関数を実行してください");
