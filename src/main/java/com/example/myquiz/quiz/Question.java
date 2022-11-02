@@ -1,7 +1,6 @@
 package com.example.myquiz.quiz;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import org.jsoup.nodes.Element;
 
 public class Question {
     final public String value;
@@ -11,5 +10,10 @@ public class Question {
             throw new IllegalArgumentException("問題が空です。");
         }
         this.value = value;
+    }
+
+    public static Question getQuestionFromHtmlElement(final Element element) {
+        final String questionString = element.getElementsByClass("qtext").text();
+        return new Question(questionString);
     }
 }

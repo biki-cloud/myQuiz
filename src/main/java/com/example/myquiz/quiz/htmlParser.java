@@ -25,7 +25,7 @@ public class htmlParser {
         for (Element element : allElements) {
             // question-から始まるクラスの要素がクイズ１問のhtml要素になる
             if (element.id().contains("question-")) {
-                quizContents.add(getQuestionFromHTMLElement(element));
+                quizContents.add(getQuizContentFromHTMLElement(element));
             }
         }
 
@@ -40,28 +40,18 @@ public class htmlParser {
      * @param element 1つの問題が格納されているHTML要素
      * @return 問題、選択肢、答えが格納されたQuestionContentオブジェクト
      */
-    public QuizContent getQuestionFromHTMLElement(Element element) {
-        final Choices choices = new Choices(new ArrayList<>());
-        QuizContent quizContent = new QuizContent();
-        for (Element ele : element.getAllElements()) {
-            final String className = ele.className();
-            final String textOfElement = ele.text();
-            switch (className) {
-                case "qtext" -> {
-                    final Question question = new Question(textOfElement);
-                    quizContent.setQuestion(question);
-                }
-                case "flex-fill ml-1", "ml-1" -> choices.add(Choices.removeLastDotFromSentence(textOfElement));
-                case "rightanswer" -> {
-                    Answer answer = Answer.getAnswerFromTextOfHtmlElement(textOfElement);
-                    quizContent.setAnswer(answer);
-                }
-            }
-        }
+    public QuizContent getQuizContentFromHTMLElement(Element element) {
+        final QuizContent quizContent = new QuizContent();
+
+        quizContent.setQuestion(Question.getQuestionFromHtmlElement(element));
+
+        quizContent.setAnswer(Answer.getAnswerFromHtmlElement(element));
+
+        quizContent.setChoices(Choices.getChoicesFromHtmlElement(element));
+
         System.out.println("-----------------------------");
-        quizContent.setChoices(choices);
-        quizContent.choicesContainsAnswer();
         System.out.println("quizContent: " + quizContent);
+        quizContent.choicesContainsAnswer();
         return quizContent;
     }
 }
