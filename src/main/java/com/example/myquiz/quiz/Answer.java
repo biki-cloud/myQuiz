@@ -1,6 +1,8 @@
 package com.example.myquiz.quiz;
 
 
+import org.jsoup.nodes.Element;
+
 public class Answer {
     final public String value;
 
@@ -41,13 +43,13 @@ public class Answer {
 
     /**
      * インスタンスの初期化を行うファクトリメソッド
-     * html要素のテキストを受け取って、文字列処理し、Answerインスタンスを返す。
-     * @param textOfHtmlElement html要素のテキストを受け取る
-     *                          例: The correct answer is: 'True'
+     * html要素を受け取って、文字列処理し、Answerインスタンスを返す。
+     * @param element html要素を受け取る
      * @return Answerインスタンスを返す。
      */
-    public static Answer getAnswerFromTextOfHtmlElement(final String textOfHtmlElement) {
-        final String removedUnnecessaryString = textOfHtmlElement.substring(22); // 'True'
+    public static Answer getAnswerFromHtmlElement(final Element element) {
+        final String answerString = element.getElementsByClass("rightanswer").text();
+        final String removedUnnecessaryString = answerString.substring(22); // 'True'
         final String dotRemovedAnswer = removeLastDotFromSentence(removedUnnecessaryString);
         final String wellProcessedAnswer = removeUnnecessaryChar(dotRemovedAnswer);
         return new Answer(wellProcessedAnswer);
