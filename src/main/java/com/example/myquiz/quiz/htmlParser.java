@@ -41,17 +41,13 @@ public class htmlParser {
      * @return 問題、選択肢、答えが格納されたQuestionContentオブジェクト
      */
     public QuizContent getQuizContentFromHTMLElement(Element element) {
-        final QuizContent quizContent = new QuizContent();
-
-        quizContent.setQuestion(Question.getQuestionFromHtmlElement(element));
-
-        quizContent.setAnswer(Answer.getAnswerFromHtmlElement(element));
-
-        quizContent.setChoices(Choices.getChoicesFromHtmlElement(element));
+        final Question question = Question.getQuestionFromHtmlElement(element);
+        final Answer answer = Answer.getAnswerFromHtmlElement(element);
+        final Choices choices = Choices.getChoicesFromHtmlElement(element);
+        final QuizContent quizContent = new QuizContent(question, choices, answer);
 
         System.out.println("-----------------------------");
         System.out.println("quizContent: " + quizContent);
-        quizContent.choicesContainsAnswer();
         return quizContent;
     }
 }

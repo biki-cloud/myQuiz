@@ -2,16 +2,15 @@ package com.example.myquiz.quiz;
 
 
 public class QuizContent {
-    private Question question;
-    private Choices choices;
-    private Answer answer;
-
-    public QuizContent() {}
+    final private Question question;
+    final private Choices choices;
+    final private Answer answer;
 
     public QuizContent(Question question, Choices choices, Answer answer) {
         this.question = question;
         this.choices = choices;
         this.answer = answer;
+        choicesContainsAnswer();
     }
 
     /**
@@ -20,7 +19,7 @@ public class QuizContent {
      * メソッドを実行してください。
      * 選択肢の中に答えが含まれていない場合はIllegalStateExceptionを投げます。
      */
-    public void choicesContainsAnswer() {
+    private void choicesContainsAnswer() {
         if (choices == null) {
             throw new NullPointerException("choicesがnullになっています。setChoicesを使用し、セットしてからこの関数を実行してください");
         }
@@ -47,24 +46,15 @@ public class QuizContent {
         return question;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
 
     public Choices getChoices() {
         return choices;
     }
 
-    public void setChoices(Choices choices) {
-        this.choices = choices;
-    }
 
 
     public Answer getAnswer() {
         return answer;
     }
 
-    public void setAnswer(Answer answer) {
-        this.answer = answer;
-    }
 }

@@ -16,7 +16,7 @@ public class Choices {
      * @param sentence 対象も文字列
      * @return 加工後の文字列を返す
      */
-    public static String removeLastDotFromSentence(final String sentence) {
+    private static String removeLastDotFromSentence(final String sentence) {
          if (sentence.charAt(sentence.length() - 1) == '.') {
              return sentence.substring(0, sentence.length() - 1);
          }
