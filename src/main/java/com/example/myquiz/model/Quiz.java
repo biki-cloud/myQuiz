@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Data
 @Getter
@@ -20,6 +21,12 @@ public class Quiz {
 
     @NotBlank
     private String htmlString;
+
+    private String question;
+
+    private String choices;
+
+    private String answer;
 
     public Quiz(Long id, String htmlString) {
         this.id = id;

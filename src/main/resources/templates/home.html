@@ -5,10 +5,30 @@
     <title>home</title>
 </head>
 <body>
-    <h1>Hello world</h1>
+<h1>Hello world</h1>
 
-    <h1 th:text="${quizContents}"></h1>
-    <div th:insert="registerQuizHtmlString"></div>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>htmlString</th>
+        <th>Question</th>
+        <th>Choices</th>
+        <th>Answer</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="quizContent: ${quizContents}" th:object="${quizContent}">
+        <td th:text="*{id}"></td>
+        <td th:text="*{htmlString}"></td>
+        <td th:text="*{question}"></td>
+        <td th:text="*{choices}"></td>
+        <td th:text="*{answer}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:insert="registerQuizHtmlString"></div>
 
 </body>
 </html>
