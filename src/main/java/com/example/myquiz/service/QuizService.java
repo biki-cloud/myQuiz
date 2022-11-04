@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 
@@ -49,7 +50,7 @@ public class QuizService {
             System.out.println(concatenatedChoices);
             quiz1.setChoices(concatenatedChoices.toString());
             quiz1.setAnswer(quizContent.getAnswer().value);
-            quiz1.setHtmlString("temp html string");
+            quiz1.setHtmlString("****");
             repository.save(quiz1); // オブジェクトをDBに保存するJPAにあるメソッド
             System.out.println("-------------------------------");
         }
@@ -59,6 +60,17 @@ public class QuizService {
          redirectした場合は、下でreturnした後はControllerのGetMapping("/")を担当している
          home関数が呼び出される。
          */
+        return "redirect:/";
+    }
+
+     /**
+     * IDを受け取り、DBから削除するメソッド
+     * @param id 削除したいレコードのID
+     * @return home.html(ホームページ)を返す
+     */
+    public String delete(@PathVariable Long id) {
+        System.out.println("deleteメソッドが呼ばれました");
+        repository.deleteById(id); // IDからレコードを削除するJpaクラスのメソッド
         return "redirect:/";
     }
 }
