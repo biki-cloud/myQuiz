@@ -27,8 +27,8 @@ public class QuizService {
     }
 
     public String register(@Validated @ModelAttribute Quiz quiz,
-                      BindingResult result,
-                      Model model) {
+                           BindingResult result,
+                           Model model) {
         System.out.println("registerメソッドが呼ばれました");
         model.addAttribute("quizContents", repository.findAll());
         if (result.hasErrors()) {
@@ -36,22 +36,28 @@ public class QuizService {
             System.out.println(result.getFieldErrors()); // エラー内容を見る
             return "home";
         }
-
         final htmlParser htmlParser = new htmlParser();
         final ArrayList<QuizContent> quizContents = htmlParser.getQuestionsFromHTMLText(quiz.getHtmlString());
-        final QuizContent quizContent = quizContents.get(0);
-        quiz.setQuestion(quizContent.getQuestion().value);
-        StringBuilder concatenatedChoices = new StringBuilder();
-        for (String choice: quizContent.getChoices().values) {
-            concatenatedChoices.append(choice).append("------");
+
+        for (QuizContent quizContent : quizContents) {
+            final Quiz quiz1 = new Quiz();
+            quiz1.setQuestion(quizContent.getQuestion().value);
+            StringBuilder concatenatedChoices = new StringBuilder();
+            for (String choice : quizContent.getChoices().values) {
+                concatenatedChoices.append(choice).append("-----------");
+            }
+            System.out.println(concatenatedChoices);
+            quiz1.setChoices(concatenatedChoices.toString());
+            quiz1.setAnswer(quizContent.getAnswer().value);
+            quiz1.setHtmlString("temp html string");
+            repository.save(quiz1); // オブジェクトをDBに保存するJPAにあるメソッド
+            System.out.println("-------------------------------");
         }
-        quiz.setChoices(concatenatedChoices.toString());
-        quiz.setAnswer(quizContent.getAnswer().value);
-        quiz.setHtmlString("temp html string");
-        repository.save(quiz); // オブジェクトをDBに保存するJPAにあるメソッド
+        model.addAttribute("quizContents2", quizContents.get(0).getQuestion());
+
         /**
-        redirectした場合は、下でreturnした後はControllerのGetMapping("/")を担当している
-        home関数が呼び出される。
+         redirectした場合は、下でreturnした後はControllerのGetMapping("/")を担当している
+         home関数が呼び出される。
          */
         return "redirect:/";
     }
