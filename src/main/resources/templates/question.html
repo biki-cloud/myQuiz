@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Question</title>
+</head>
+<body>
+<h1 th:text="${targetQuestion}"></h1>
+
+<h2 th:text="${targetQuestion.htmlString}"></h2>
+<h2 th:text="${targetQuestion.question}"></h2>
+<h2 th:text="${targetQuestion.choices}" class="choices"></h2>
+<h2 th:text="${targetQuestion.answer}"></h2>
+
+<script type="text/javascript" th:src="@{/js/add_newline.js}"></script>
+</body>
+</html>

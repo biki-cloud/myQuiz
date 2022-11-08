@@ -37,6 +37,16 @@ public class QuizController {
     public String delete(@PathVariable Long id) {
         return quizService.delete(id);
     }
+
+    @GetMapping("/question")
+    public String question(Model model) {
+        return quizService.question(model);
+    }
+
+    @GetMapping("/view")
+    public String view(Model model) {
+        return quizService.view(model);
+    }
 }
 
 

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class QuizService {
@@ -45,16 +47,15 @@ public class QuizService {
             quiz1.setQuestion(quizContent.getQuestion().value);
             StringBuilder concatenatedChoices = new StringBuilder();
             for (String choice : quizContent.getChoices().values) {
-                concatenatedChoices.append(choice).append("-----------");
+                concatenatedChoices.append(choice).append("---");
             }
             System.out.println(concatenatedChoices);
             quiz1.setChoices(concatenatedChoices.toString());
             quiz1.setAnswer(quizContent.getAnswer().value);
-            quiz1.setHtmlString("****");
+            quiz1.setHtmlString("<br />");
             repository.save(quiz1); // オブジェクトをDBに保存するJPAにあるメソッド
             System.out.println("-------------------------------");
         }
-        model.addAttribute("quizContents2", quizContents.get(0).getQuestion());
 
         /**
          redirectした場合は、下でreturnした後はControllerのGetMapping("/")を担当している
@@ -71,6 +72,23 @@ public class QuizService {
     public String delete(@PathVariable Long id) {
         System.out.println("deleteメソッドが呼ばれました");
         repository.deleteById(id); // IDからレコードを削除するJpaクラスのメソッド
-        return "redirect:/";
+        return "redirect:/view";
+    }
+
+    public Quiz getRandomQuiz(List<Quiz> quizList) {
+        Random random = new Random();
+        int randomNum = random.nextInt(quizList.size());
+        return quizList.get(randomNum);
+    }
+
+    public String question(Model model) {
+        List<Quiz> quizList = repository.findAll();
+        model.addAttribute("targetQuestion", getRandomQuiz(quizList));
+        return "question";
+    }
+
+    public String view(Model model) {
+        model.addAttribute("questions", repository.findAll());
+        return "view";
     }
 }
