@@ -4,6 +4,7 @@ import com.example.myquiz.model.Quiz;
 import com.example.myquiz.quiz.QuizContent;
 import com.example.myquiz.quiz.htmlParser;
 import com.example.myquiz.repository.QuizRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,10 +15,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 @Service
 public class QuizService {
     private final QuizRepository repository;
+
+    private static final String RESOURCE_NAME = "messages/messages";
+    private static ResourceBundle rb = ResourceBundle.getBundle(RESOURCE_NAME);
 
     public QuizService(QuizRepository repository) {
         this.repository = repository;
@@ -25,6 +30,7 @@ public class QuizService {
 
     public String home(Model model, @ModelAttribute Quiz quiz) {
         System.out.println("homeメソッドが呼ばれました");
+        System.out.println(rb.getString("welcome"));
         model.addAttribute("quizContents", repository.findAll());
         return "home";
     }
