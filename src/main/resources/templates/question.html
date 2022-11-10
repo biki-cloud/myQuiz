@@ -12,6 +12,13 @@
 <h2 th:text="${targetQuestion.choices}" class="choices"></h2>
 <h2 th:text="${targetQuestion.answer}"></h2>
 
+<form th:action="@{/answer}" th:object="${targetQuestion}" method="post">
+    <label for="userAnswer">userAnswer</label>
+    <input type="text" th:field="*{userAnswer}">
+    <small style="color: red" th:errors="*{userAnswer}"></small>
+    <button type="submit">回答</button>
+</form>
+
 <script type="text/javascript" th:src="@{/js/add_newline.js}"></script>
 </body>
 </html>

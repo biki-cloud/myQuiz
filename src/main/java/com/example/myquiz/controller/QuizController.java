@@ -47,6 +47,11 @@ public class QuizController {
     public String view(Model model) {
         return quizService.view(model);
     }
+
+    @PostMapping("/answer")
+    public String answer(@ModelAttribute Quiz quiz) {
+        return quizService.answer(quiz);
+    }
 }
 
 

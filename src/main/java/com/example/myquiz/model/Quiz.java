@@ -30,6 +30,9 @@ public class Quiz {
     @Column(length = 3000)
     private String answer;
 
+    @Column(length = 3000)
+    private String userAnswer;
+
     public Quiz(Long id, String htmlString) {
         this.id = id;
         this.htmlString = htmlString;

@@ -88,12 +88,20 @@ public class QuizService {
 
     public String question(Model model) {
         List<Quiz> quizList = repository.findAll();
-        model.addAttribute("targetQuestion", getRandomQuiz(quizList));
+        final Quiz selectedQuiz = getRandomQuiz(quizList);
+        model.addAttribute("targetQuestion", selectedQuiz);
+        System.out.println(selectedQuiz);
         return "question";
     }
 
     public String view(Model model) {
         model.addAttribute("questions", repository.findAll());
         return "view";
+    }
+
+    public String answer(@ModelAttribute Quiz quiz) {
+        System.out.println("answerが呼ばれました");
+        System.out.println(quiz);
+        return "redirect:/question";
     }
 }
