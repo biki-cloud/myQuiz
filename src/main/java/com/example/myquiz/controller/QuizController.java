@@ -22,8 +22,8 @@ public class QuizController {
     }
 
     @GetMapping("/")
-    public String home(Model model, @ModelAttribute Quiz quiz) {
-        return quizService.home(model, quiz);
+    public String home(Model model) {
+        return quizService.home(model);
     }
 
     @PostMapping("/register")

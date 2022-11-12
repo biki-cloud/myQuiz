@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 public class QuizService {
     private final QuizRepository repository;
 
+    // このファイルの中でメッセージリソースを使用するために定義している。
     private static final String messagesResourceName = "messages/messages";
     private static final ResourceBundle messagesResource = ResourceBundle.getBundle(messagesResourceName);
 
@@ -27,13 +28,27 @@ public class QuizService {
         this.repository = repository;
     }
 
-    public String home(Model model, @ModelAttribute Quiz quiz) {
+    /**
+     * 一覧表示、問題出す、クイズ登録へのリンクがあるホームページ。
+     * @param model 値をテンプレートに渡すためのオブジェクト
+     * @return ホームページを返す。
+     */
+    public String home(Model model) {
         System.out.println("homeメソッドが呼ばれました");
         System.out.println(messagesResource.getString("welcome"));
         model.addAttribute("quizContents", repository.findAll());
         return "home";
     }
 
+    /**
+     * 問題を登録する。
+     * 問題のhtml要素を受け取り、パースして実際の問題を１０問取り出し、DBへ登録する。
+     * @param quiz 入力されたQuizオブジェクト.
+     * @param result 正常にバインドされたか判断するオブジェクト
+     * @param model 値をテンプレートに渡すためのオブジェクト
+     * @return バインドエラーが起きたら、登録せずにホームページを返す。
+     *         エラーが起きなかったらホームページにリダイレクトする。
+     */
     public String register(@Validated @ModelAttribute Quiz quiz,
                            BindingResult result,
                            Model model) {
@@ -57,15 +72,11 @@ public class QuizService {
             System.out.println(concatenatedChoices);
             quiz1.setChoices(concatenatedChoices.toString());
             quiz1.setAnswer(quizContent.getAnswer().value);
-            quiz1.setHtmlString("<br />");
-            repository.save(quiz1); // オブジェクトをDBに保存するJPAにあるメソッド
+            quiz1.setHtmlString("");
+            repository.save(quiz1);
             System.out.println("-------------------------------");
         }
 
-        /**
-         redirectした場合は、下でreturnした後はControllerのGetMapping("/")を担当している
-         home関数が呼び出される。
-         */
         return "redirect:/";
     }
 
@@ -80,32 +91,51 @@ public class QuizService {
         return "redirect:/view";
     }
 
+    /**
+     * 問題をランダムに取り出す。
+     * @param quizList ランダムに取り出すための問題のリスト
+     * @return ランダムに取り出されたQuizオブジェクトを返す
+     */
     public Quiz getRandomQuiz(List<Quiz> quizList) {
         Random random = new Random();
         int randomNum = random.nextInt(quizList.size());
         return quizList.get(randomNum);
     }
 
+    /**
+     * 問題を出し、提出してもらうページ
+     * 問題はランダムに一問選択される。
+     * @param model 値をテンプレートに渡すためのオブジェクト
+     * @return 問題を出し、提出してもらうページ
+     */
     public String question(Model model) {
         List<Quiz> quizList = repository.findAll();
         final Quiz selectedQuiz = getRandomQuiz(quizList);
         model.addAttribute("question", selectedQuiz);
-        System.out.println(selectedQuiz);
         return "question";
     }
 
+    /**
+     * DBに登録された問題一覧を表示
+     * @param model 値をテンプレートに渡すためのオブジェクト
+     * @return DBに登録された問題一覧を表示するページを返す
+     */
     public String view(Model model) {
         model.addAttribute("questions", repository.findAll());
         return "view";
     }
 
+    /**
+     * ユーザの答えの正解・不正解を判定し、ユーザに結果を表示するページを返す。
+     * @param quiz 問題、選択肢、答え、ユーザの回答が入ったQuizオブジェクト
+     * @param model 値をテンプレートに渡すためのオブジェクト
+     * @return ユーザの結果を表示するページを返す。
+     */
     public String result(@ModelAttribute Quiz quiz, Model model) {
         System.out.println("answerが呼ばれました");
 
-        // ユーザの答えは答え合わせの時にだけ使用するので、DBに保存する必要はない。
-        quiz.setUserAnswer("");
-
-        String result = "";
+        // ユーザの正解・不正解を判定
+        String result;
         if (quiz.getUserAnswer().equals(quiz.getAnswer())) {
             result = "Correct!";
         } else {
@@ -114,6 +144,9 @@ public class QuizService {
 
         model.addAttribute("result", result);
         model.addAttribute("question", quiz);
+
+        // ユーザの答えは答え合わせの時にだけ使用するので、DBに保存する必要はない。
+        quiz.setUserAnswer("");
 
         repository.save(quiz);
 
