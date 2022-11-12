@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+</head>
+
+<body>
+<form th:action="@{/register}" th:object="${quiz}"
+      method="post">
+    <input type="hidden" th:field="*{id}">
+
+    <label for="htmlString">Register</label>
+    <input type="text" th:field="*{htmlString}">
+    <small style="color: red" th:errors="*{htmlString}"></small>
+
+    <button type="submit">登録</button>
+</form>
+
+</body>

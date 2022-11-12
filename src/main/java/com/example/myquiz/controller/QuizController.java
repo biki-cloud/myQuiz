@@ -26,6 +26,11 @@ public class QuizController {
         return quizService.home(model);
     }
 
+    @GetMapping("/registerPage")
+    public String registerPage(Model model, @ModelAttribute Quiz quiz) {
+        return quizService.registerPage(model, quiz);
+    }
+
     @PostMapping("/register")
     public String add(@Validated @ModelAttribute Quiz quiz,
                       BindingResult result,

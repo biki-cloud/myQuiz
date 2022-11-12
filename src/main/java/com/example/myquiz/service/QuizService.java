@@ -36,8 +36,18 @@ public class QuizService {
     public String home(Model model) {
         System.out.println("homeメソッドが呼ばれました");
         System.out.println(messagesResource.getString("welcome"));
-        model.addAttribute("quizContents", repository.findAll());
         return "home";
+    }
+
+    /**
+     * 問題を登録する用のページ
+     * @param model 値をテンプレートに渡すためのオブジェクト
+     * @param quiz 問題を登録する用のQuizオブジェクト
+     * @return 問題を登録する用のページを返す
+     */
+    public String registerPage(Model model, @ModelAttribute Quiz quiz) {
+        model.addAttribute("quiz", quiz);
+        return "registerPage";
     }
 
     /**
