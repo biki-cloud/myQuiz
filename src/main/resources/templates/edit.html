@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<p id="id" question="id" value="id">
+
+<form th:action="@{/update}" th:object="${quiz}"
+      method="post">
+  <input type="hidden" th:field="*{id}">
+
+  <label for="question">question</label>
+  <input type="text" th:field="*{question}">
+  <small style="color: red" th:errors="*{question}"></small>
+
+  <label for="choices">choices</label>
+  <input type="text" th:field="*{choices}">
+  <small style="color: red" th:errors="*{choices}"></small>
+
+  <label for="answer">answer</label>
+  <input type="text" th:field="*{answer}">
+  <small style="color: red" th:errors="*{answer}"></small>
+
+  <button type="submit">保存</button>
+</form>
+
+</body>
+</html>

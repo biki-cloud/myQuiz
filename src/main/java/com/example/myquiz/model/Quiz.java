@@ -16,7 +16,7 @@ public class Quiz {
     @GeneratedValue
     private Long id;
 
-    @NotBlank
+    @Column(length = 3000)
     private String htmlString;
 
     @Column(length = 3000)

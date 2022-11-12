@@ -43,6 +43,18 @@ public class QuizController {
         return quizService.delete(id);
     }
 
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Long id, Model model) {
+        return quizService.edit(id, model);
+    }
+
+    @PostMapping("/update")
+    public String update(@Validated @ModelAttribute Quiz quiz,
+                      BindingResult result,
+                      Model model) {
+        return quizService.update(quiz, result, model);
+    }
+
     @GetMapping("/question")
     public String question(Model model) {
         return quizService.question(model);

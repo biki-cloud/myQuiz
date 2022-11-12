@@ -102,6 +102,39 @@ public class QuizService {
     }
 
     /**
+     * 変更したいレコードのIDを受け取り、編集画面を返す。
+     * @param id 編集したいレコードのID
+     * @param model htmlへ編集したいレコードのモデルを渡すためのもの
+     * @return contentEdit.html(編集画面)を返す
+     */
+    public String edit(@PathVariable Long id, Model model) {
+        System.out.println("editメソッドが呼ばれました");
+        model.addAttribute("quiz", repository.findById(id)); // IDからレコードを検索するJpaクラスのメソッド
+        return "edit";
+    }
+
+    /**
+     * updateメソッド
+     * @param quiz バインドされたQuizオブジェクト
+     * @param result バインドの結果
+     * @param model htmlへモデルを渡すために使用する
+     * @return バインドが失敗した場合は、contentEdit.html(編集画面)を返す。
+     * 　　　　 バインドが成功した場合は、home.html(ホームページ)を返す。
+     */
+    public String update(@Validated @ModelAttribute Quiz quiz,
+                      BindingResult result,
+                      Model model) {
+        System.out.println("updateメソッドが呼ばれました");
+        model.addAttribute("quiz", repository.findAll()); // DBの全てのレコードを取得するメソッド。
+        if (result.hasErrors()) {
+            System.out.println("バインドエラーが起きました -> " + result.getFieldErrors());
+            return "home";
+        }
+        repository.save(quiz);
+        return "redirect:/view";
+    }
+
+    /**
      * 問題をランダムに取り出す。
      * @param quizList ランダムに取り出すための問題のリスト
      * @return ランダムに取り出されたQuizオブジェクトを返す
