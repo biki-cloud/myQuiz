@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+</head>
+<body>
+
+<label for="result">Result: </label>
+<h1 th:text="${result}"></h1>
+
+<h1>ID:</h1>
+<h2 th:text="${question.id}"></h2>
+<h1>Question:</h1>
+<h2 th:text="${question.question}"></h2>
+<h1>Choices:</h1>
+<h2 th:text="${question.choices}" class="choices"></h2>
+<h1>Answer:</h1>
+<h1 th:text="${question.answer}"></h1>
+
+<a href="/question">次の問題へ</a>
+
+<script type="text/javascript" th:src="@{/js/add_newline.js}"></script>
+</body>
+</html>

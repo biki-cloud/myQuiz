@@ -5,17 +5,23 @@
     <title>Question</title>
 </head>
 <body>
-<h1 th:text="${targetQuestion}"></h1>
+<h1>Question:</h1>
+<h2 th:text="${question.question}"></h2>
+<h1>Choices:</h1>
+<h2 th:text="${question.choices}" class="choices"></h2>
 
-<h2 th:text="${targetQuestion.htmlString}"></h2>
-<h2 th:text="${targetQuestion.question}"></h2>
-<h2 th:text="${targetQuestion.choices}" class="choices"></h2>
-<h2 th:text="${targetQuestion.answer}"></h2>
-
-<form th:action="@{/answer}" th:object="${targetQuestion}" method="post">
+<form th:action="@{/result}" th:object="${question}" method="post">
     <label for="userAnswer">userAnswer</label>
     <input type="text" th:field="*{userAnswer}">
     <small style="color: red" th:errors="*{userAnswer}"></small>
+
+    <!--    id, htmlString, question, choices, answerを再代入 -->
+    <input type="hidden" th:field="${question.id}">
+    <input type="hidden" th:field="${question.htmlString}">
+    <input type="hidden" th:field="${question.question}">
+    <input type="hidden" th:field="${question.choices}">
+    <input type="hidden" th:field="${question.answer}">
+
     <button type="submit">回答</button>
 </form>
 

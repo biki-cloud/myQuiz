@@ -89,7 +89,7 @@ public class QuizService {
     public String question(Model model) {
         List<Quiz> quizList = repository.findAll();
         final Quiz selectedQuiz = getRandomQuiz(quizList);
-        model.addAttribute("targetQuestion", selectedQuiz);
+        model.addAttribute("question", selectedQuiz);
         System.out.println(selectedQuiz);
         return "question";
     }
@@ -99,9 +99,24 @@ public class QuizService {
         return "view";
     }
 
-    public String answer(@ModelAttribute Quiz quiz) {
+    public String result(@ModelAttribute Quiz quiz, Model model) {
         System.out.println("answerが呼ばれました");
-        System.out.println(quiz);
-        return "redirect:/question";
+
+        // ユーザの答えは答え合わせの時にだけ使用するので、DBに保存する必要はない。
+        quiz.setUserAnswer("");
+
+        String result = "";
+        if (quiz.getUserAnswer().equals(quiz.getAnswer())) {
+            result = "Correct!";
+        } else {
+            result = "Wrong!";
+        }
+
+        model.addAttribute("result", result);
+        model.addAttribute("question", quiz);
+
+        repository.save(quiz);
+
+        return "result";
     }
 }

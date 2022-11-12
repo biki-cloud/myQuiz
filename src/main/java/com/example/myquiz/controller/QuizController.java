@@ -48,9 +48,9 @@ public class QuizController {
         return quizService.view(model);
     }
 
-    @PostMapping("/answer")
-    public String answer(@ModelAttribute Quiz quiz) {
-        return quizService.answer(quiz);
+    @PostMapping("/result")
+    public String result(@ModelAttribute Quiz quiz, Model model) {
+        return quizService.result(quiz, model);
     }
 }
 
