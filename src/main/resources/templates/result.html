@@ -9,8 +9,6 @@
 <label for="result">Result: </label>
 <h1 th:text="${result}"></h1>
 
-<h1>ID:</h1>
-<h2 th:text="${question.id}"></h2>
 <h1>Question:</h1>
 <h2 th:text="${question.question}"></h2>
 <h1>Choices:</h1>
@@ -22,6 +20,6 @@
 <br>
 <a href="/">ホームへ</a>
 
-<script type="text/javascript" th:src="@{/js/add_newline.js}"></script>
+<script type="text/javascript" th:src="@{/js/replace_threeHyphen_to_newline.js}"></script>
 </body>
 </html>

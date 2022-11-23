@@ -63,30 +63,15 @@ public class QuizService {
                            BindingResult result,
                            Model model) {
         System.out.println("registerメソッドが呼ばれました");
-        model.addAttribute("quizContents", repository.findAll());
         if (result.hasErrors()) {
             System.out.println("バインドエラーが起きました");
             System.out.println(result.getFieldErrors()); // エラー内容を見る
             return "home";
         }
-        final htmlParser htmlParser = new htmlParser();
-        final ArrayList<QuizContent> quizContents = htmlParser.getQuestionsFromHTMLText(quiz.getHtmlString());
-
-        for (QuizContent quizContent : quizContents) {
-            final Quiz quiz1 = new Quiz();
-            quiz1.setQuestion(quizContent.getQuestion().value);
-            StringBuilder concatenatedChoices = new StringBuilder();
-            for (String choice : quizContent.getChoices().values) {
-                concatenatedChoices.append(choice).append("---");
-            }
-            System.out.println(concatenatedChoices);
-            quiz1.setChoices(concatenatedChoices.toString());
-            quiz1.setAnswer(quizContent.getAnswer().value);
-            quiz1.setHtmlString("");
-            repository.save(quiz1);
-            System.out.println("-------------------------------");
-        }
-
+        System.out.println(quiz.getQuestion());
+        System.out.println(quiz.getChoices());
+        System.out.println(quiz.getAnswer());
+        repository.save(quiz);
         return "redirect:/";
     }
 

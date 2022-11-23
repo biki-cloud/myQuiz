@@ -3,21 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Question</title>
+
+    <script type="text/javascript" th:src="@{/js/replace_threeHyphen_to_newline.js}"></script>
 </head>
 <body>
 <h1>Question:</h1>
-<h2 th:text="${question.question}"></h2>
+<h2 th:text="${question.question}" class="replace-newline"></h2>
 <h1>Choices:</h1>
-<h2 th:text="${question.choices}" class="choices"></h2>
+<h2 th:text="${question.choices}" class="replace-newline"></h2>
+
+<button onclick="answer_display();">回答表示</button>
+<div id="answer-div" style="display: none">
+    <h1>回答</h1>
+    <h2 th:text="${question.answer}" id="answer" class="replace-newline"></h2>
+</div>
+
 
 <form th:action="@{/result}" th:object="${question}" method="post">
     <label for="userAnswer">userAnswer</label>
     <input type="text" th:field="*{userAnswer}">
     <small style="color: red" th:errors="*{userAnswer}"></small>
 
-    <!--    id, htmlString, question, choices, answerを再代入 -->
+    <!--    id, question, choices, answerを再代入 -->
     <input type="hidden" th:field="${question.id}">
-    <input type="hidden" th:field="${question.htmlString}">
     <input type="hidden" th:field="${question.question}">
     <input type="hidden" th:field="${question.choices}">
     <input type="hidden" th:field="${question.answer}">
@@ -25,8 +33,24 @@
     <button type="submit">回答</button>
 </form>
 
-<script type="text/javascript" th:src="@{/js/add_newline.js}"></script>
+<script>
 
+    // ボタンを押したら答えが表示される
+    function answer_display() {
+        console.log("answer display button pushed");
+        document.getElementById("answer-div").style.display = "block";
+    }
+
+    // inner_text文字列の中の"---"を改行に変換する
+    let testClasses = document.getElementsByClassName("replace-newline")
+    for (let i = 0; i < testClasses.length; i++) {
+        replace_to_newline(testClasses.item(i));
+    }
+
+</script>
+
+<a href="/question">次の問題へ</a>
+<br>
 <a href="/">ホームへ</a>
 </body>
 </html>

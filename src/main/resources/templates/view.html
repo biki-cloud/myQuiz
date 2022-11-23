@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>view</title>
+    <script type="text/javascript" th:src="@{/js/replace_threeHyphen_to_newline.js}"></script>
 </head>
 <body>
 <a href="/">ホームへ</a>
@@ -11,7 +12,6 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>htmlString</th>
         <th>Question</th>
         <th>Choices</th>
         <th>Answer</th>
@@ -22,10 +22,9 @@
     <tbody>
     <tr th:each="quizContent: ${questions}" th:object="${quizContent}">
         <td th:text="*{id}"></td>
-        <td th:text="*{htmlString}"></td>
-        <td th:text="*{question}"></td>
-        <td th:text="*{choices}" class="choices"></td>
-        <td th:text="*{answer}"></td>
+        <td th:text="*{question}" class="replace-newline"></td>
+        <td th:text="*{choices}" class="replace-newline"></td>
+        <td th:text="*{answer}" class="replace-newline"></td>
         <td>
             <a th:href="@{/edit/{id}(id=*{id})}">edit</a>
         </td>
@@ -37,6 +36,13 @@
 </table>
 
 
-<script type="text/javascript" th:src="@{/js/add_newline.js}"></script>
+<script>
+    // inner_text文字列の中の"---"を改行に変換する
+    let elements_for_replace = document.getElementsByClassName("replace-newline")
+    for (let i = 0; i < elements_for_replace.length; i++) {
+        replace_to_newline(elements_for_replace.item(i));
+    }
+</script>
+
 </body>
 </html>

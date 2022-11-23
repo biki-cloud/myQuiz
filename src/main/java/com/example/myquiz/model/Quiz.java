@@ -17,9 +17,6 @@ public class Quiz {
     private Long id;
 
     @Column(length = 3000)
-    private String htmlString;
-
-    @Column(length = 3000)
     private String question;
 
     @Column(columnDefinition = "TEXT", length = 300000)
@@ -33,7 +30,6 @@ public class Quiz {
 
     public Quiz(Long id, String htmlString) {
         this.id = id;
-        this.htmlString = htmlString;
     }
 
     public Quiz() {
